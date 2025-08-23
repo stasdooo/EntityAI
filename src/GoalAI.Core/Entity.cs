@@ -17,5 +17,10 @@
             components.Add(component);
             
         }
+
+        public T? GetComponent<T>() where T: IComponent
+        {
+            return components.OfType<T>().FirstOrDefault();
+        }
     }
 }

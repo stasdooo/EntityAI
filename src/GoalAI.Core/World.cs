@@ -8,6 +8,18 @@ namespace GoalAI.Core
 {
     internal class World
     {
+        
+        private List<Entity> entities = new List<Entity>();
+
+        public IReadOnlyList<Entity> Entities 
+        { 
+            get { return entities; }
+        } 
+        
+        public void AddEntity(Entity entity)
+        {
+            entities.Add(entity);
+        }
 
     }
 }
