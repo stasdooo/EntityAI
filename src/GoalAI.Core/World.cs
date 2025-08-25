@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core
 {
-    internal class World
+    public class World
     {
         
         private List<Entity> entities = new List<Entity>();

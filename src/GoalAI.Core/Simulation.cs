@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core
 {
-    class Simulation
+    public class Simulation
     {
 
         private World world;
@@ -32,7 +32,18 @@ namespace GoalAI.Core
             {
                 var ai = entity.GetComponent<AIComponent>();
                 if(ai is null) continue;
-                //TODO vybrat nejdulezitejsi nesplneny cil, vybrat nejlevnejsi akci a provest
+
+
+                // vybrat nejdulezitejsi nesplneny cil
+                //nejdulezitejsi nesplneny cil
+                var goal = ai.Goals.OrderByDescending(g => g.Priority).FirstOrDefault(g=> !g.IsCompleted(world,entity));
+                if (goal is null)
+                    continue;
+
+                //vyber nejlevnejsi akci
+                var action = ai.Actions.Where(a => a.IsApplicable(world, entity)).OrderBy(a => a.Cost(world, entity)).FirstOrDefault();
+
+                action?.Apply(world, entity);
 
             }
         }

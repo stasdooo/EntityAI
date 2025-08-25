@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core
 {
-    internal interface IGoal
+    public interface IGoal
     {
         string Name { get; }
         int Priority { get; }
+
+        bool IsCompleted (World world, Entity entity);
     }
 }

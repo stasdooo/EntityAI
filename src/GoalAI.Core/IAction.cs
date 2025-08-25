@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core
 {
-    internal interface IAction
+    public interface IAction
     {
+        string Name { get; }
+        bool IsApplicable(World world,Entity entity);
+        float Cost(World world, Entity entity);
+        void Apply(World world, Entity entity);
+
     }
 }

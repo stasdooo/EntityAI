@@ -12,10 +12,10 @@
             this.Name = Name;
         }
 
-        public void AddComponent(IComponent component)
+        public T AddComponent<T>(T component)where T:IComponent
         {
             components.Add(component);
-            
+            return component;
         }
 
         public T? GetComponent<T>() where T: IComponent

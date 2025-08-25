@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoalAI.Core
+namespace GoalAI.Core.Components
 {
-    internal class AIComponent :IComponent
+    public class InventoryComponent:IComponent
     {
-
+        public int Food { get; set; }
     }
 }
