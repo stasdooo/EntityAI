@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GoalAI.Core.Goals
 {
 
- 
+
     public class AvoidHungerGoal : IGoal
     {
         public string Name => "AvoidHunger";

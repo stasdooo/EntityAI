@@ -5,6 +5,11 @@
     public class Entity
     {
         private List<IComponent> components = new List<IComponent>();
+
+        public IReadOnlyList<IComponent> Components 
+        {
+            get { return components; } 
+        }
         public string Name { get; private set; }
 
         public Entity(string Name) 

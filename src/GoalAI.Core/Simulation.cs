@@ -27,6 +27,9 @@ namespace GoalAI.Core
         {
             replanTime += time;
 
+            Tick(time);
+
+
             if (replanTime < replanInterval)
                 return;
             replanTime = 0;
@@ -58,6 +61,19 @@ namespace GoalAI.Core
                 }
                 
 
+            }
+        }
+
+        //Tick all ITickable components
+        private void Tick(float deltaTime)
+        {
+            foreach( var entity in world.Entities )
+            {
+                foreach(var c in entity.Components )
+                {
+                    if (c is ITickable t)
+                        t.Tick(deltaTime);
+                }
             }
         }
     }
