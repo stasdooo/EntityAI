@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Actions
 {
-    public class EatAction: IAction
+    public class EatAction: IAction, ICoolDownAction
     {
         public string Name => "Eat";
+
+        public float CooldownSeconds => 0.5f;
 
         public void Apply(World world, Entity entity)
         {

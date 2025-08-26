@@ -13,8 +13,13 @@ namespace GoalAI.Core
 
         private World world;
         private float replanInterval;
-        private float replanTime;
+        private float sinceReplan;
         private IAiLogger? logger;
+
+        private float time; //herni cas v sekundach
+
+        //cas posledniho provedeni akce na entite
+        private Dictionary<(Entity, IAction), float> lastUse = new Dictionary<(Entity, IAction), float> ();
 
         public Simulation(World world, float replanInterval,IAiLogger? logger = null )
         {
@@ -23,16 +28,18 @@ namespace GoalAI.Core
             this.logger = logger;
         }
 
-        public void Step(float time)
+        public void Step(float delatTime)
         {
-            replanTime += time;
+            sinceReplan += delatTime;
+            time += delatTime;
 
-            Tick(time);
+
+            Tick(delatTime);
 
 
-            if (replanTime < replanInterval)
+            if (sinceReplan < replanInterval)
                 return;
-            replanTime = 0;
+            sinceReplan = 0;
 
             foreach( var entity in world.Entities )
             {
@@ -41,7 +48,7 @@ namespace GoalAI.Core
 
 
                 // vybrat nejdulezitejsi nesplneny cil
-                //nejdulezitejsi nesplneny cil
+                //nejdulezitejsi nesplneny cil podle priority
                 var goal = ai.Goals.OrderByDescending(g => g.Priority).FirstOrDefault(g=> !g.IsCompleted(world,entity));
                 if (goal is null)
                     continue;
@@ -49,20 +56,37 @@ namespace GoalAI.Core
 
                 logger?.GoalSelected(entity, goal);
 
-                //vyber nejlevnejsi akci
-                var action = ai.Actions.Where(a => a.IsApplicable(world, entity)).OrderBy(a => a.Cost(world, entity)).FirstOrDefault();
+                //vyber nejlevnejsi akci, krerou muzeme pouzit a je dostupna(neni "cooldown")
+                var action = ai.Actions.Where(a => a.IsApplicable(world, entity)).Where(a=>IsOffCoolDown(entity,a)).OrderBy(a => a.Cost(world, entity)).FirstOrDefault();
 
                 if(action is not null)
                 {
                     logger?.ActionChoosen(entity, action);
                     action.Apply(world, entity);
-                    logger?.ActionApplied(entity, action);  
+                    logger?.ActionApplied(entity, action);
+
+                    lastUse[(entity, action)] = time;
 
                 }
                 
 
             }
         }
+
+
+        private bool IsOffCoolDown(Entity entity, IAction action)
+        {
+            if(action is not ICoolDownAction c || c.CooldownSeconds<=0)
+                return true;
+
+            float lastuse;
+            if(lastUse.TryGetValue((entity,action),out lastuse))
+                return true;
+
+            return time - lastuse > c.CooldownSeconds;
+           
+        }
+
 
         //Tick all ITickable components
         private void Tick(float deltaTime)

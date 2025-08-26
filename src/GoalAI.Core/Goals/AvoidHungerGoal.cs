@@ -15,16 +15,21 @@ namespace GoalAI.Core.Goals
 
         public int Priority { get; }
 
-        public AvoidHungerGoal(int priority=5)
+
+        //hranice hladu, od ktere se tento cil aktivuje
+        public float HungerPoint { get; }
+
+        public AvoidHungerGoal(int priority=5,float hungerPoint=40)
         {
             Priority = priority;
+            HungerPoint = hungerPoint;
         }
 
         public bool IsCompleted(World world, Entity entity)
         {
             var hunger = entity.GetComponent<HungerComponent>();
 
-            return hunger is not null && hunger.Hunger < 40;
+            return hunger is not null && hunger.Hunger < HungerPoint;
         }
     }
 }
