@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoalAI.Core.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace GoalAI.Core
         private World world;
         private float replanInterval;
         private float replanTime;
+        private IAiLogger? logger;
 
-        public Simulation(World world, float replanInterval)
+        public Simulation(World world, float replanInterval,IAiLogger? logger = null )
         {
             this.world = world;
             this.replanInterval = replanInterval;
+            this.logger = logger;
         }
 
         public void Step(float time)
@@ -40,10 +43,20 @@ namespace GoalAI.Core
                 if (goal is null)
                     continue;
 
+
+                logger?.GoalSelected(entity, goal);
+
                 //vyber nejlevnejsi akci
                 var action = ai.Actions.Where(a => a.IsApplicable(world, entity)).OrderBy(a => a.Cost(world, entity)).FirstOrDefault();
 
-                action?.Apply(world, entity);
+                if(action is not null)
+                {
+                    logger?.ActionChoosen(entity, action);
+                    action.Apply(world, entity);
+                    logger?.ActionApplied(entity, action);  
+
+                }
+                
 
             }
         }
