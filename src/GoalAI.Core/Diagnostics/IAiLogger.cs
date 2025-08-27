@@ -9,7 +9,8 @@ namespace GoalAI.Core.Diagnostics
     public interface IAiLogger
     {
         void GoalSelected(Entity entity,IGoal goal);
-        void ActionChoosen(Entity entity,IAction action);
+        void ActionChosen(Entity entity,IAction action);
+        void ActionStarted(Entity self, IAction action);
         void ActionApplied(Entity entity,IAction action);
     }
 }

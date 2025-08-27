@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core
 {
-    internal interface ICoolDownAction
+    internal interface ICooldownAction
     {
         float CooldownSeconds { get; }
     }

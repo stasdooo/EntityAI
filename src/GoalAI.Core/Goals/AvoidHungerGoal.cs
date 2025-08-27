@@ -25,7 +25,7 @@ namespace GoalAI.Core.Goals
             HungerPoint = hungerPoint;
         }
 
-        public bool IsCompleted(World world, Entity entity)
+        public bool IsSatisfied(World world, Entity entity)
         {
             var hunger = entity.GetComponent<HungerComponent>();
 

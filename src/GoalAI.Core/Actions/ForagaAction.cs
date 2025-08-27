@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 namespace GoalAI.Core.Actions
 {
     //hledani jidla
-    public class ForagaAction : IAction, ICoolDownAction
+    public class ForageAction : IAction, ICooldownAction, IDurationAction
     {
         public string Name => "Forage";
 
         public float CooldownSeconds => 2f;
+        public float DurationSeconds => 2f;
         public void Apply(World world, Entity entity)
         {
             var inv = entity.GetComponent<InventoryComponent>();

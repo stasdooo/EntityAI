@@ -14,14 +14,21 @@ namespace GoalAI.Core.Diagnostics
             Console.WriteLine("AI "+entity.Name + " selected goal " + goal.Name);
         }
 
-        public void ActionChoosen(Entity entity, IAction action)
+        public void ActionChosen(Entity entity, IAction action)
         {
             Console.WriteLine("AI " + entity.Name + " chose action " +  action.Name);
         }
 
+        public void ActionStarted(Entity entity, IAction action)
+        {
+            Console.WriteLine("AI " + entity.Name + " started action " + action.Name);
+        }
+
+
+
         public void ActionApplied(Entity entity, IAction action)
         {
-            Console.WriteLine("AI " + entity.Name + " applied action " + action.Name );
+            Console.WriteLine("AI " + entity.Name + " applied(finished) action " + action.Name );
         }
     }
 }
