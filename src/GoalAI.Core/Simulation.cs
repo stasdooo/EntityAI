@@ -103,7 +103,12 @@ namespace GoalAI.Core
 
                 logger?.ActionChosen(entity, action);
 
-                var duration = (action is IDurationAction da) ? da.DurationSeconds : 0f;
+                
+                float duration = 0f;
+                if (action is IDurationAction da)
+                {
+                    duration = da.GetDuration(world, entity);
+                }
 
                 if (duration > 0f)
                 {

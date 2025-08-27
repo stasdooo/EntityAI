@@ -13,7 +13,10 @@ namespace GoalAI.Core.Actions
         public string Name => "Forage";
 
         public float CooldownSeconds => 2f;
-        public float DurationSeconds => 2f;
+        public float GetDuration(World entity,Entity world)
+        {
+            return 2f;
+        }
         public void Apply(World world, Entity entity)
         {
             var inv = entity.GetComponent<InventoryComponent>();

@@ -12,7 +12,10 @@ namespace GoalAI.Core.Actions
         public string Name => "Eat";
 
         public float CooldownSeconds => 0.5f;
-        public float DurationSeconds => 0.5f;
+        public float GetDuration(World world,Entity entity)
+        {
+            return 0.5f;
+        }
 
         public void Apply(World world, Entity entity)
         {

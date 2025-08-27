@@ -8,6 +8,6 @@ namespace GoalAI.Core
 {
     public interface IDurationAction
     {
-        float DurationSeconds { get; }
+        float GetDuration(World world, Entity entity);
     }
 }

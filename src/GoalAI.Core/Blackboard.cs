@@ -15,7 +15,7 @@ namespace GoalAI.Core
             data[key] = value;
         }
 
-        public bool TryGet<T>(string key,T value)
+        public bool TryGet<T>(string key,out T? value)
         {
             if(data.TryGetValue(key, out var result))
                 if(result is T t)
