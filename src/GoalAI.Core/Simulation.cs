@@ -10,90 +10,132 @@ namespace GoalAI.Core
 {
     public class Simulation
     {
+        private readonly World world;
+        private readonly float replanInterval;
+        private readonly IAiLogger? logger;
 
-        private World world;
-        private float replanInterval;
-        private float sinceReplan;
-        private IAiLogger? logger;
+        private float time;           // herni cas v sekundach
+        private float sinceReplan;   // akumuluje cas do dalsiho planovani
 
-        private float time; //herni cas v sekundach
+        //  cas posledniho provedeni akce na entite (pro cooldown)
+        private readonly Dictionary<(Entity entity, IAction action), float> lastUse = new Dictionary<(Entity entity, IAction action), float>();
 
-        //cas posledniho provedeni akce na entite
-        private Dictionary<(Entity, IAction), float> lastUse = new Dictionary<(Entity, IAction), float> ();
+        //  prave bezici akce na entite
+        private readonly Dictionary<Entity, (IAction action, float remaining)> running = new Dictionary<Entity, (IAction action, float remaining)>();
 
-        public Simulation(World world, float replanInterval,IAiLogger? logger = null )
+        public Simulation(World world, float replanInterval, IAiLogger? logger = null)
         {
             this.world = world;
             this.replanInterval = replanInterval;
             this.logger = logger;
         }
 
-        public void Step(float delatTime)
+        public void Step(float deltaTime)
         {
-            sinceReplan += delatTime;
-            time += delatTime;
+            sinceReplan += deltaTime;
+            time += deltaTime;
 
+            //0) Tick vsech ITickable komponent
+            Tick(deltaTime);
 
-            Tick(delatTime);
+            //1) Progres prave bezicich akci
+            if (running.Count > 0)
+            {
+                var finished = new List<Entity>(running.Count);
 
+                foreach (var kv in running)
+                {
+                    var e = kv.Key;
+                    var (action, remaining) = kv.Value;
 
+                    remaining -= deltaTime;
+
+                    if (remaining <= 0f)
+                    {
+                        action.Apply(world, e);
+                        logger?.ActionApplied(e, action);
+                        lastUse[(e, action)] = time;
+                        finished.Add(e);
+                    }
+                    else
+                    {
+                        running[e] = (action, remaining); // update zbyvajiciho casu
+                    }
+                }
+
+                foreach (var e in finished)
+                    running.Remove(e);
+            }
+
+            //2) Replan jen v intervalu
             if (sinceReplan < replanInterval)
                 return;
-            sinceReplan = 0;
+            sinceReplan = 0f;
 
-            foreach( var entity in world.Entities )
+            // 3) Planovani ( jen pro entity ktere zrovna nic nedelaji)
+            foreach (var entity in world.Entities)
             {
+                if (running.ContainsKey(entity))
+                    continue;
+
                 var ai = entity.GetComponent<AIComponent>();
-                if(ai is null) continue;
+                if (ai is null || ai.Goals.Count == 0)
+                    continue;
 
-
-                // vybrat nejdulezitejsi nesplneny cil
-                //nejdulezitejsi nesplneny cil podle priority
-                var goal = ai.Goals.OrderByDescending(g => g.Priority).FirstOrDefault(g=> !g.IsCompleted(world,entity));
+                // Nejduležitější NESPLNĚNÝ cíl
+                var goal = ai.Goals
+                             .OrderByDescending(g => g.Priority)
+                             .FirstOrDefault(g => !g.IsSatisfied(world, entity));
                 if (goal is null)
                     continue;
 
-
                 logger?.GoalSelected(entity, goal);
 
-                //vyber nejlevnejsi akci, krerou muzeme pouzit a je dostupna(neni "cooldown")
-                var action = ai.Actions.Where(a => a.IsApplicable(world, entity)).Where(a=>IsOffCoolDown(entity,a)).OrderBy(a => a.Cost(world, entity)).FirstOrDefault();
+                // Nejlevnější použitelná akce, která není na cooldownu
+                var action = ai.Actions
+                              .Where(a => a.IsApplicable(world, entity))
+                              .Where(a => IsOffCooldown(entity, a))
+                              .OrderBy(a => a.Cost(world, entity))
+                              .FirstOrDefault();
 
-                if(action is not null)
+                if (action is null)
+                    continue;
+
+                logger?.ActionChosen(entity, action);
+
+                var duration = (action is IDurationAction da) ? da.DurationSeconds : 0f;
+
+                if (duration > 0f)
                 {
-                    logger?.ActionChoosen(entity, action);
+                    running[entity] = (action, duration);
+                    logger?.ActionStarted(entity, action);
+                }
+                else
+                {
                     action.Apply(world, entity);
                     logger?.ActionApplied(entity, action);
-
                     lastUse[(entity, action)] = time;
-
                 }
-                
-
             }
         }
 
-
-        private bool IsOffCoolDown(Entity entity, IAction action)
+        private bool IsOffCooldown(Entity entity, IAction action)
         {
-            if(action is not ICoolDownAction c || c.CooldownSeconds<=0)
+            if (action is not ICooldownAction cd || cd.CooldownSeconds <= 0f)
                 return true;
 
-            float lastuse;
-            if(lastUse.TryGetValue((entity,action),out lastuse))
-                return true;
+            if (!lastUse.TryGetValue((entity, action), out var last))
+                return true; // nikdy jeste nepouzito
 
-            return time - lastuse > c.CooldownSeconds;
-           
+            return (time - last) >= cd.CooldownSeconds; // true == cooldown vyprsel
         }
 
-
-        //Tick all ITickable components
+        
         private void Tick(float deltaTime)
         {
-            foreach( var entity in world.Entities )
+            foreach (var entity in world.Entities)
             {
-                foreach(var c in entity.Components )
+                foreach (var c in entity.Components)
                 {
                     if (c is ITickable t)
                         t.Tick(deltaTime);

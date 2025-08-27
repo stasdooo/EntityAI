@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core
 {
-    public interface IGoal
+    public interface IDurationAction
     {
-        string Name { get; }
-        int Priority { get; }
-
-        bool IsSatisfied(World world, Entity entity);
+        float DurationSeconds { get; }
     }
 }
