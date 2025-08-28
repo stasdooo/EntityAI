@@ -11,6 +11,8 @@ namespace GoalAI.Core
         
         private List<Entity> entities = new List<Entity>();
 
+        public WorldState State = new WorldState();
+
         public IReadOnlyList<Entity> Entities 
         { 
             get { return entities; }
