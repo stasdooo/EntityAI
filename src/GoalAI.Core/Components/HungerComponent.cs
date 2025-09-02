@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Components
 {
+
+    /// <summary>
+    /// Component that tracks the hunger level of an entity (0 = full, 100 = starving).
+    /// Increases over time and can be reduced by eating.
+    /// </summary>
     public class HungerComponent:IComponent,ITickable
     {
         public float Hunger {  get; private set; }
         public float HungerPerSecond { get; set; } = 1;
 
-        public HungerComponent(float hunger = 50)  // 0 = sytý
+        public HungerComponent(float hunger = 60) 
         {
             Hunger = HungerComponent.ClampHunger(hunger);
         }

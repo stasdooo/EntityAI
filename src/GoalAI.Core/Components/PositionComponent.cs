@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Components
 {
+
+    // Component that stores the 2D position of an entity in the world
     public class PositionComponent :IComponent
     {
         public float X {  get; private set; }
@@ -23,6 +25,7 @@ namespace GoalAI.Core.Components
             Y = y; 
         }
 
+        //Euclidean distance from this position to the given point
         public float DistanceTo(float x, float y)
         {
             var dx = x - X;
