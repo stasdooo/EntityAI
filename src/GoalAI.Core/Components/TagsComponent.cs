@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Components
 {
+    /// <summary>
+    /// Component that stores a set of string tags for an entity or the world.
+    /// </summary>
     public class TagsComponent : IComponent
     {
         private HashSet<string> tags = new HashSet<string>();

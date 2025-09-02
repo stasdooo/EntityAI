@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoalAI.Core.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace GoalAI.Core
         private List<Entity> entities = new List<Entity>();
 
         public WorldState State = new WorldState();
+
+        public ResourceRegistry Resources = new ResourceRegistry();
 
         public IReadOnlyList<Entity> Entities 
         { 

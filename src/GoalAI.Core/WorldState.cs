@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core
 {
+    /// <summary>
+    /// Holds the global blackboard, tags, and properties shared across the world.
+    /// </summary>
     public class WorldState
     {
         public Blackboard Blackboard = new Blackboard();

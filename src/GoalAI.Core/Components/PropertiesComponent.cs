@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Components
 {
+    /// <summary>
+    /// Component for storing named float properties.
+    /// </summary>
     public class PropertiesComponent
     {
         private Dictionary<string,float> floats = new Dictionary<string,float>();

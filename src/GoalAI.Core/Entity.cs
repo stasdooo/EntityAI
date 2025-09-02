@@ -2,6 +2,10 @@
 
 
 {
+
+    /// <summary>
+    /// Container object that groups components together to form a unit in the game world
+    /// </summary>
     public class Entity
     {
         private List<IComponent> components = new List<IComponent>();
@@ -23,6 +27,7 @@
             return component;
         }
 
+        // Finds the first component of the given type, or null if none exist
         public T? GetComponent<T>() where T: IComponent
         {
             return components.OfType<T>().FirstOrDefault();
