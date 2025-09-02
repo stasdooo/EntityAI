@@ -7,21 +7,27 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Actions
 {
+
+    /// <summary>
+    /// Action that moves the entity to a target position stored in its blackboard.
+    /// The duration and cost are calculated from the distance and movement speed.
+    /// </summary>
     public class MoveToAction : IAction, IDurationAction
     {
-        public string Name => throw new NotImplementedException();
+        public string Name => "MoveToAction";
 
         private string targetKey;
         private float speed;
 
-
-        //TODO logic with coordinates?
+        
+        // Creates a new move action that reads the target position from the given blackboard key.
         public MoveToAction(string targetKey, float speed = 2)
         {
             this.targetKey = targetKey;
             this.speed = speed;
         }
 
+        // Calculates how long the move will take based on distance and speed
         public float GetDuration(World world, Entity entity)
         {
             var pos = entity.GetComponent<PositionComponent>();
@@ -35,6 +41,7 @@ namespace GoalAI.Core.Actions
 
         }
 
+        // Moves the entity instantly to the target position
         public void Apply(World world, Entity entity)
         {
             var pos = entity.GetComponent<PositionComponent>();
@@ -52,6 +59,7 @@ namespace GoalAI.Core.Actions
         }
 
 
+        // Checks if the entity has a position component and a valid target in the blackboard
         public bool IsApplicable(World world, Entity entity)
         {
 

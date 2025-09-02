@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Actions
 {
+
+    /// <summary>
+    /// Action that consumes one unit of food from the inventory and reduces hunger.
+    /// </summary>
     public class EatAction: IAction, ICooldownAction, IDurationAction
     {
         public string Name => "Eat";
@@ -35,7 +39,7 @@ namespace GoalAI.Core.Actions
 
         public float Cost(World world, Entity entity)
         {
-            return 1; //levnejsi nez hledat
+            return 1; // cheaper than searching for food
         }
 
         public bool IsApplicable(World world, Entity entity)
@@ -46,7 +50,7 @@ namespace GoalAI.Core.Actions
             if ((inv is null) || (hunger is null))
                 return false;
 
-            return inv.Food > 0 && hunger.Hunger > 40;
+            return inv.Food > 0;
 
         }
     }

@@ -7,15 +7,20 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Actions
 {
-    //hledani jidla
-    public class ForageAction : IAction, ICooldownAction, IDurationAction
-    {
-        public string Name => "Forage";
 
-        public float CooldownSeconds => 2f;
+    /// <summary>
+    /// Action that creates one unit of food by foraging.
+    /// This action is expensive and has a long cooldown,
+    /// so the agent will prefer searching for food in the world before using it.
+    /// </summary>
+    public class MakeFoodAction : IAction, ICooldownAction, IDurationAction
+    {
+        public string Name => "MakeFood";
+
+        public float CooldownSeconds => 4f;
         public float GetDuration(World entity,Entity world)
         {
-            return 2f;
+            return 4f;
         }
         public void Apply(World world, Entity entity)
         {
