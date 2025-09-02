@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Diagnostics
 {
+    /// <summary>
+    /// Interface for logging AI decisions and action execution.
+    /// </summary>
     public interface IAiLogger
     {
         void GoalSelected(Entity entity,IGoal goal);
