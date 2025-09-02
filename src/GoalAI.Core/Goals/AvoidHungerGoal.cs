@@ -9,6 +9,9 @@ namespace GoalAI.Core.Goals
 {
 
 
+    /// <summary>
+    /// Goal that becomes active when the entity's hunger rises above a threshold
+    /// </summary>
     public class AvoidHungerGoal : IGoal
     {
         public string Name => "AvoidHunger";
@@ -16,20 +19,21 @@ namespace GoalAI.Core.Goals
         public int Priority { get; }
 
 
-        //hranice hladu, od ktere se tento cil aktivuje
-        public float HungerPoint { get; }
+        
+        //hunger level above which this goal is considered unsatisfied
+        public float Threshold { get; }
 
-        public AvoidHungerGoal(int priority=5,float hungerPoint=40)
+        public AvoidHungerGoal(int priority=5,float threshold=40)
         {
             Priority = priority;
-            HungerPoint = hungerPoint;
+            Threshold = threshold;
         }
 
         public bool IsSatisfied(World world, Entity entity)
         {
             var hunger = entity.GetComponent<HungerComponent>();
 
-            return hunger is not null && hunger.Hunger < HungerPoint;
+            return hunger is not null && hunger.Hunger < Threshold;
         }
     }
 }
