@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core.Resources
 {
+
+    /// <summary>
+    /// Types of resource nodes available in the world
+    /// </summary>
     public enum ResourceType
     {
         FoodPile
