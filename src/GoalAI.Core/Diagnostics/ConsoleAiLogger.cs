@@ -30,5 +30,20 @@ namespace GoalAI.Core.Diagnostics
         {
             Console.WriteLine("AI " + entity.Name + " applied(finished) action " + action.Name );
         }
+
+        public void PlanningFailed_NoGoalTest(Entity entity, IGoal goal)
+        {
+            Console.WriteLine("AI " + entity.Name + ": goal " + goal.Name + "has no goal test, cannot plan");
+        }
+
+        public void PlanningFailed_NoActions(Entity entity, IGoal goal)
+        {
+            Console.WriteLine("AI " + entity.Name + ": no planning actions available for goal " + goal.Name);
+        }
+
+        public void PlanningFailed_NoPlanFound(Entity entity, IGoal goal)
+        {
+            Console.WriteLine("AI " + entity.Name + ": planner could not find a plan for goal " + goal.Name);
+        }
     }
 }

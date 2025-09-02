@@ -15,5 +15,9 @@ namespace GoalAI.Core.Diagnostics
         void ActionChosen(Entity entity,IAction action);
         void ActionStarted(Entity self, IAction action);
         void ActionApplied(Entity entity,IAction action);
+
+        void PlanningFailed_NoGoalTest(Entity entity, IGoal goal);
+        void PlanningFailed_NoActions(Entity entity, IGoal goal);
+        void PlanningFailed_NoPlanFound(Entity entity, IGoal goal);
     }
 }
