@@ -35,10 +35,6 @@ namespace GoalAI.Core.Actions
             inv.Food += 1;
         }
 
-        public float Cost(World world, Entity entity)
-        {
-            return 10;
-        }
 
         public bool IsApplicable(World world, Entity entity)
         {

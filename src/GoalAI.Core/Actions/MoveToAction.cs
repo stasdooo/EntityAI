@@ -53,10 +53,6 @@ namespace GoalAI.Core.Actions
             pos.Set(target.tx, target.ty);
         }
 
-        public float Cost(World world, Entity entity)
-        {
-            return GetDuration(world,entity);
-        }
 
 
         // Checks if the entity has a position component and a valid target in the blackboard

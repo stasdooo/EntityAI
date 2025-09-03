@@ -54,10 +54,6 @@ namespace GoalAI.Core.Actions
 
         }
 
-        public float Cost(World world, Entity entity)
-        {
-            return 2;
-        }
 
        
     }

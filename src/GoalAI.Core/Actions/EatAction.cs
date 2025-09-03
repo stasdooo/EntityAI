@@ -37,11 +37,6 @@ namespace GoalAI.Core.Actions
 
         }
 
-        public float Cost(World world, Entity entity)
-        {
-            return 1; // cheaper than searching for food
-        }
-
         public bool IsApplicable(World world, Entity entity)
         {
             var inv = entity.GetComponent<InventoryComponent>();
