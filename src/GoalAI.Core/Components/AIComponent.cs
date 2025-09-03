@@ -12,18 +12,14 @@ namespace GoalAI.Core
     /// </summary>
     public class AIComponent :IComponent
     {
-        //runtime actions
-        private List<IAction> actions = new List<IAction>();
+
 
         private List<IGoal> goals = new List<IGoal>();
 
         //planning actions used by the GOAP planner
         private List<IPlanningAction> plannings = new List<IPlanningAction>();
 
-        public IReadOnlyList<IAction> Actions 
-        { 
-            get { return actions; } 
-        }
+
         public IReadOnlyList<IGoal> Goals 
         { 
             get { return goals; } 
@@ -34,12 +30,7 @@ namespace GoalAI.Core
             get { return plannings; }
         }
 
-        public AIComponent AddAction(IAction action)
-        {
-            actions.Add(action);
-            return this;
-        }
-
+      
         public AIComponent AddGoal(IGoal goal)
         {
             goals.Add(goal);
