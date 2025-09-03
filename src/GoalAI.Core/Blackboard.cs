@@ -11,9 +11,9 @@ namespace GoalAI.Core
     /// </summary>
     public class Blackboard
     {
-        private Dictionary<string,object?> data = new Dictionary<string,object?>();
+        private Dictionary<BlackboardKey,object?> data = new Dictionary<BlackboardKey,object?>();
 
-        public void Set<T>(string key, T value)
+        public void Set<T>(BlackboardKey key, T value)
         {
             data[key] = value;
         }
@@ -21,7 +21,7 @@ namespace GoalAI.Core
 
         //Tries to get a value by key and cast it to the given type
         //  Returns true if the key exists and the type matches; otherwise sets to default and retur false
-        public bool TryGet<T>(string key,out T? value)
+        public bool TryGet<T>(BlackboardKey key,out T? value)
         {
             if (data.TryGetValue(key, out var result))
             {

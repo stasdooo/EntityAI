@@ -324,7 +324,7 @@ namespace GoalAI.Core
 
             var node = world.Resources.FindClosest(ResourceType.FoodPile, pos.X, pos.Y);
             if (node is not null)
-                bb.Set("target_pos", (node.X, node.Y));
+                bb.Set(BlackboardKey.TargetFood, (node.X, node.Y));
 
         }
     }

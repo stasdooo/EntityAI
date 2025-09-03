@@ -16,12 +16,12 @@ namespace GoalAI.Core.Actions
     {
         public string Name => "MoveToAction";
 
-        private string targetKey;
+        private BlackboardKey targetKey;
         private float speed;
 
         
         // Creates a new move action that reads the target position from the given blackboard key.
-        public MoveToAction(string targetKey, float speed = 2)
+        public MoveToAction(BlackboardKey targetKey, float speed = 2)
         {
             this.targetKey = targetKey;
             this.speed = speed;
