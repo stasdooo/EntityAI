@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace GoalAI.Core
 {
+
+    /// <summary>
+    /// Represents the game world holding entities, global state, and resources.
+    /// </summary>
     public class World
     {
         

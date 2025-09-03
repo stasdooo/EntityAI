@@ -12,8 +12,11 @@ namespace GoalAI.Core
     /// </summary>
     public class WorldState
     {
+        
         public Blackboard Blackboard = new Blackboard();
+
         public TagsComponent Tags = new TagsComponent();
+
         public PropertiesComponent Properties = new PropertiesComponent();
     }
 }
