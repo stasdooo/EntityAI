@@ -22,7 +22,7 @@ Entita se skládá z **komponent**
 
 ### Komponenty
 
-Každá komponenta implementuje rozhraní [`IComponent`](src/GoalAI.Core/Components/IComponent.cs). Některé navíc [`ITickable`](src/GoalAI.Core/ITickable.cs) – to znamená, že se mění v čase. Stav se aktualizuje při každém taktu simulace (např. `HungerComponent` zvyšuje hlad)
+Každá komponenta implementuje rozhraní [`IComponent`](src/GoalAI.Core/IComponent.cs). Některé navíc [`ITickable`](src/GoalAI.Core/ITickable.cs) – to znamená, že se mění v čase. Stav se aktualizuje při každém taktu simulace (např. `HungerComponent` zvyšuje hlad)
 
 **Podporované [komponenty](src/GoalAI.Core/Components):**
 
