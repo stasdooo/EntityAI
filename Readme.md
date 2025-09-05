@@ -106,7 +106,7 @@ Výchozí agent (např. sedlák/peasant):
 - Plánuje akce: přesun ke zdroji → sebrání jídla → jídlo do inventáře → snězení
 - Fallback: pokud nejsou zdroje poblíž, použije `MakeFoodAction`
 
-  ## Ukázka použití v konzolové aplikaci
+  ## [Ukázka použití v konzolové aplikaci](src/samples/Console/program.cs)
 
 Následující příklad vytvoří malý svět se dvěma hromádkami jídla a jedním sedlákem (NPC).  
 Sedlák má hlad, inventář a cíle: **zůstat naživu**, **vyhnout se hladu** a **nasbírat jídlo**.  
@@ -160,3 +160,6 @@ for (int i = 0; i < 80; i++)
                          .Sum(n => n.Amount)
 }
 Console.WriteLine(" End simulation ");
+```
+
+ ## [Ukázka použití v Unity](src/samples/Unity)
