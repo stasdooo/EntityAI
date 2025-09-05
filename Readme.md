@@ -60,6 +60,12 @@ Každý cíl má prioritu a test splnění.
 - **AvoidHungerGoal** – snižuj hlad pod určitou hranici.
 - **StayAliveGoal** – nepřekroč hladinu „maximálního hladu“.
 - **CollectFoodGoal** – mít v inventáři určitý minimální počet jídla.
+  
+  **!Poznámka pro rozšíření!**
+  Pokud přidáš nový cíl, je potřeba přidat odpovídající **testovací predikát** do metody  
+   `MakeGoalTest(Entity e, IGoal goal)` v `Simulation`.
+    - Tato metoda převádí cíl na logický predikát nad `PlanState`.  
+   - Bez toho plánovač nebude vědět, jak poznat, že byl cíl splněn.
 
 ### Svět
 
