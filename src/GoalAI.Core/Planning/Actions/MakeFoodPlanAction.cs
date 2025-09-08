@@ -36,7 +36,8 @@ namespace GoalAI.Core.Planning.Actions
 
         public float Cost(PlanState s)
         {
-            return 10;
+            return 100;
         }
     }
 }
+
