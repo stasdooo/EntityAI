@@ -9,9 +9,10 @@ namespace GoalAI.Core.Actions
 {
 
     /// <summary>
-    /// Action that creates one unit of food by foraging.
-    /// This action is expensive and has a long cooldown,
-    /// so the agent will prefer searching for food in the world before using it.
+    /// Artificial action that directly creates one unit of food in the agent's inventory.
+    /// Unlike PickUpAction, this does not require any resources in the world.
+    /// It's expensive and has a long cooldown, so it serves only as a fallback
+    /// when no natural food sources are available.
     /// </summary>
     public class MakeFoodAction : IAction, ICooldownAction, IDurationAction
     {
@@ -42,3 +43,4 @@ namespace GoalAI.Core.Actions
         }
     }
 }
+
