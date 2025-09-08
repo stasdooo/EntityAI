@@ -71,12 +71,27 @@ public class AiAgentController : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if (Entity is null) return;
-        var inv = Entity.GetComponent<InventoryComponent>();
-        var hung = Entity.GetComponent<HungerComponent>();
-        var label = "Food=" + (inv?.Food ?? 0) + "  Hunger=" + (hung?.Hunger.ToString("F0"));
-        UnityEditor.Handles.Label(transform.position + Vector3.up * 0.5f + Vector3.right*0.5f, label);
-    }
+          if (Entity is null) return;
+          var inv = Entity.GetComponent<InventoryComponent>();
+          var hung = Entity.GetComponent<HungerComponent>();
+
+          string label;
+          if (hung != null && hung.Hunger >= 100f)
+          {
+              label = "DEAD";
+          }
+          else
+          {
+              label = "Food=" + (inv?.Food ?? 0) +
+                      "  Hunger=" + (hung?.Hunger.ToString("F0") ?? "0");
+          }
+
+          UnityEditor.Handles.Label(
+              transform.position + Vector3.up * 0.5f + Vector3.right * 0.5f,
+              label
+          );
+            }
 #endif
 
 }
+
